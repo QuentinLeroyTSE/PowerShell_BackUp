@@ -38,6 +38,8 @@ if($Choice -eq "1"){
     else{ 
         $isSame = 0
         write-host "Les deux arbres ne sont pas de meme longueur"
+        write-host "Tree1 ("$TreePath1 "):" $Tree1.Length
+        write-host "Tree2 ("$TreePath2 "):" $Tree2.Length
     }
 
     if($isSame -eq 1){
@@ -55,34 +57,35 @@ elseif($Choice -eq "2"){
 
     #(Get-ItemProperty .\DFS.ps1).LastWriteTime
 
-    [bool]$isSame = 1
     [bool]$isSameSize = 1
     [bool]$isSameLWT = 1
     $diff_counter = 0
+
     if($Tree1.Length -eq $Tree2.Length){
         #Compare Tree1 and Tree2
         For ($i = 0 ; $i –lt $Tree1.length ; $i ++){
             #Name comparison: if the names are the same, size and last write time can be compared
             if($Tree1[$i] -eq $Tree2[$i]){
 
+                [string]$PropPath1 = $TreePath1.ToString() + '\' + $Tree1[$i].ToString()
+                [string]$PropPath2 = $TreePath2.ToString() + '\' + $Tree2[$i].ToString()
+
                 #Lengh (Size in Bytes)
-                $Size1 = (Get-ItemProperty $Tree1[$i]).Length
-                $Size1 = (Get-ItemProperty $Tree2[$i]).Length
+                $Size1 = (Get-ItemProperty $PropPath1).Length
+                $Size2 = (Get-ItemProperty $PropPath2).Length
                 if($Size1 -ne $Size2){
                     write-host "File size is different at index"$i
-                    write-host "Tree1 : "$Tree1[$i]" Size = "$LWT1 "Bytes"
-                    write-host "Tree2 : "$Tree2[$i]" Size = "$LWT2 "Bytes"
-                    $isSame = 0
+                    write-host "Tree1 : "$Tree1[$i]" Size = "$Size1 "Bytes"
+                    write-host "Tree2 : "$Tree2[$i]" Size = "$Size2 "Bytes"
                     $isSameSize = 0
                 }
                 #Last Write Time
-                $LWT1 = (Get-ItemProperty $Tree1[$i]).LastWriteTime
-                $LWT2 = (Get-ItemProperty $Tree2[$i]).LastWriteTime
+                $LWT1 = (Get-ItemProperty $PropPath1).LastWriteTime
+                $LWT2 = (Get-ItemProperty $PropPath2).LastWriteTime
                 if($LWT1.ToString() -ne $LWT2.ToString()){
                     write-host "Last Write Time is different at index"$i
                     write-host "Tree1 : "$Tree1[$i]" Last Write Time = "$LWT1 
                     write-host "Tree2 : "$Tree2[$i]" Last Write Time = "$LWT2
-                    $isSame = 0
                     $isSameLWT = 0
                 }
                 if(($isSameSize -eq 0) -or ($isSameLWT -eq 0)){
@@ -95,17 +98,18 @@ elseif($Choice -eq "2"){
                 write-host "Name difference at index"$i
                 write-host "Tree1 has"$Tree1[$i] 
                 write-host "Tree2 has"$Tree2[$i]
-                $isSame = 0
                 $diff_counter++
             }
         }#For Loop
     }#If Lengh 
     else{ 
-        $isSame = 0
         write-host "Les deux arbres ne sont pas de meme longueur"
+        write-host "Tree1 ("$TreePath1 "):" $Tree1.Length
+        write-host "Tree2 ("$TreePath2 "):" $Tree2.Length
+        $diff_counter++
     }
 
-    if($isSame -eq 1){
+    if($diff_counter -eq 0){
         write-host "Les deux arbres sont identiques"
     }
     else{
@@ -138,6 +142,8 @@ elseif($Choice -eq "3"){
     else{ 
         $isSame = 0
         write-host "Les deux arbres ne sont pas de meme longueur"
+        write-host "Tree1 ("$TreePath1 "):" $Tree1.Length
+        write-host "Tree2 ("$TreePath2 "):" $Tree2.Length
     }
 
     if($isSame -eq 1){
