@@ -23,6 +23,7 @@ if($Choice -eq "1"){
     $Tree2 = Get-ChildItem -Path $TreePath2 -Name -Recurse -Directory
 
     [bool]$isSame = 1
+    $diff_counter = 0
     if($Tree1.Length -eq $Tree2.Length){
         #Compare Tree1 and Tree2
         For ($i = 0 ; $i –lt $Tree1.length ; $i ++){
@@ -32,8 +33,10 @@ if($Choice -eq "1"){
                 write-host "Tree1 has"$Tree1[$i] 
                 write-host "Tree2 has"$Tree2[$i]
                 $isSame = 0
+                $diff_counter++
             }
         }
+        Write-Host "Nombre de difference:"$diff_counter
     }
     else{ 
         $isSame = 0
